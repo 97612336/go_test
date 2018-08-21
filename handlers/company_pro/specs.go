@@ -19,6 +19,5 @@ func Get_one_specs(w http.ResponseWriter, r *http.Request) {
 	}
 	data["code"] = 200
 	data["name"] = names
-	
 	util.Return_json(w, data)
 }
