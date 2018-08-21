@@ -35,8 +35,8 @@ func Get_sql_db() *sql.DB {
 	sqlconf := Get_conf_info()
 	//打开数据库
 	db, err := sql.Open("mysql",
-		sqlconf.SqlUser+":"+sqlconf.SqlPassword+
-			"@tcp("+sqlconf.SqlHost+":"+sqlconf.SqlPort+")/cyx?charset=utf8")
+		sqlconf.SqlUser + ":" + sqlconf.SqlPassword+
+			"@tcp("+ sqlconf.SqlHost+ ":"+ sqlconf.SqlPort+ ")/cyx?charset=utf8")
 	if err != nil {
 		log.Println("打开数据库出错")
 	}
@@ -79,6 +79,7 @@ func Get_img_account() models.Upload_account {
 	json.Unmarshal(account_json, &account)
 	return account
 }
+
 
 //获取redis操作对象
 //获取redis操作对象
