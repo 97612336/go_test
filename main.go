@@ -1,0 +1,22 @@
+package main
+
+import (
+	"net/http"
+	"go_test/handlers"
+	_ "github.com/go-sql-driver/mysql"
+	"go_test/util"
+)
+
+func init() {
+	util.DB = util.Get_sql_db()
+}
+
+func main() {
+	//设置路由
+	handlers.MyUrls()
+	//设置监听端口
+	err := http.ListenAndServe(":8080", nil)
+	//启动程序
+	util.CheckErr(err)
+
+}
