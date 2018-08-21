@@ -13,16 +13,11 @@ func Get_one_specs(w http.ResponseWriter, r *http.Request) {
 	var name string
 	rows, err := util.DB.Query(sql_str)
 	util.CheckErr(err)
-	defer rows.Close()
 	for rows.Next() {
 		rows.Scan(&name)
 		names = append(names, name)
 	}
-	//测试go语言模拟请求
-	//req := curl.NewRequest()
-	//resp, err := req.SetUrl("https://www.baidu.com").Get()
-	//util.CheckErr(err)
-	//fmt.Println(resp.Body)
+	//测试网页请求
 	response, err := http.Get("https://www.baidu.com")
 	util.CheckErr(err)
 	res, err := ioutil.ReadAll(response.Body)
@@ -31,4 +26,16 @@ func Get_one_specs(w http.ResponseWriter, r *http.Request) {
 	data["code"] = 200
 	data["name"] = names
 	util.Return_json(w, data)
+}
+
+type Type int
+
+func Select_sql_rows(sql_str string, lists []Type, one_obj Type) {
+	rows, err := util.DB.Query(sql_str)
+	util.CheckErr(err)
+	for rows.Next() {
+		err := rows.Scan(&one_obj)
+		util.CheckErr(err)
+		lists = append(lists, one_obj)
+	}
 }
