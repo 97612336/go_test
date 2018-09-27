@@ -2,14 +2,14 @@ package util
 
 import (
 	"database/sql"
-	"io/ioutil"
 	"encoding/json"
-	"log"
-	"os/user"
 	"fmt"
-	"go_test/models"
 	"github.com/garyburd/redigo/redis"
 	_ "github.com/go-sql-driver/mysql"
+	"go_test/models"
+	"io/ioutil"
+	"log"
+	"os/user"
 	"time"
 )
 
@@ -28,6 +28,16 @@ func Get_home_path() string {
 	return user_home
 }
 
+//获取email的配置信息
+func Get_email_info() models.Email {
+	user_home := Get_home_path()
+	config_file := user_home + "/conf/email.conf"
+	data, _ := ioutil.ReadFile(config_file)
+	var email_conf models.Email
+	json.Unmarshal(data, &email_conf)
+	return email_conf
+}
+
 //获取mysql对象
 //获取mysql对象
 //获取mysql对象
@@ -35,8 +45,8 @@ func Get_sql_db() *sql.DB {
 	sqlconf := Get_conf_info()
 	//打开数据库
 	db, err := sql.Open("mysql",
-		sqlconf.SqlUser + ":" + sqlconf.SqlPassword+
-			"@tcp("+ sqlconf.SqlHost+ ":"+ sqlconf.SqlPort+ ")/cyx?charset=utf8")
+		sqlconf.SqlUser+":"+sqlconf.SqlPassword+
+			"@tcp("+sqlconf.SqlHost+":"+sqlconf.SqlPort+")/cyx?charset=utf8")
 	if err != nil {
 		log.Println("打开数据库出错")
 	}
@@ -79,7 +89,6 @@ func Get_img_account() models.Upload_account {
 	json.Unmarshal(account_json, &account)
 	return account
 }
-
 
 //获取redis操作对象
 //获取redis操作对象

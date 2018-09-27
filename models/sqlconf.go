@@ -19,3 +19,12 @@ type Redis_conf struct {
 	Ip_addr string
 	Port    string
 }
+
+// 邮箱的配置文件类型
+type Email struct {
+	Account string
+	Passwd string
+	Server string
+	Port int
+	Secret string
+}
